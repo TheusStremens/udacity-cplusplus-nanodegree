@@ -9,6 +9,9 @@
 
 class System {
  public:
+  // Constructor that will initialize information that don't change at runtime.
+  System();
+
   Processor& Cpu();                   // TODO: See src/system.cpp
   std::vector<Process>& Processes();  // TODO: See src/system.cpp
   float MemoryUtilization();          // TODO: See src/system.cpp
@@ -22,6 +25,11 @@ class System {
  private:
   Processor cpu_ = {};
   std::vector<Process> processes_ = {};
+
+  /// Stores the OS because it won't change at runtime.
+  std::string operating_system_ = {};
+  /// Stores the Kernel because it won't change at runtime.
+  std::string kernel_ = {};
 };
 
 #endif
