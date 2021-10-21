@@ -22,7 +22,20 @@ System::System() {
 Processor& System::Cpu() { return cpu_; }
 
 // TODO: Return a container composed of the system's processes
-vector<Process>& System::Processes() { return processes_; }
+vector<Process>& System::Processes() {
+  auto pids = LinuxParser::Pids();
+  for (auto pid : pids) {
+    Process new_process;
+    new_process.Pid(pid);
+    new_process.Command(LinuxParser::Command(pid));
+    new_process.User(LinuxParser::User(pid));
+    new_process.Ram(LinuxParser::Ram(pid));
+    new_process.UpTime(LinuxParser::UpTime(pid));
+    processes_.push_back(new_process);
+  }
+  std::sort(processes_.begin(), processes_.end());
+  return processes_;
+}
 
 std::string System::Kernel() { return kernel_; }
 

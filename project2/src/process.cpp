@@ -10,24 +10,35 @@ using std::string;
 using std::to_string;
 using std::vector;
 
-// TODO: Return this process's ID
-int Process::Pid() { return 0; }
+Process::Process() {}
 
-// TODO: Return this process's CPU utilization
-float Process::CpuUtilization() { return 0; }
+int Process::Pid() const { return pid_; }
 
-// TODO: Return the command that generated this process
-string Process::Command() { return string(); }
+float Process::CpuUtilization() const { return cpu_utilization_; }
 
-// TODO: Return this process's memory utilization
-string Process::Ram() { return string(); }
+string Process::Command() const { return command_; }
 
-// TODO: Return the user (name) that generated this process
-string Process::User() { return string(); }
+string Process::Ram() const { return ram_; }
 
-// TODO: Return the age of this process (in seconds)
-long int Process::UpTime() { return 0; }
+string Process::User() const { return user_; }
 
-// TODO: Overload the "less than" comparison operator for Process objects
-// REMOVE: [[maybe_unused]] once you define the function
-bool Process::operator<(Process const& a[[maybe_unused]]) const { return true; }
+long int Process::UpTime() const { return uptime_; }
+
+//----------------------------------------------
+
+void Process::Pid(const int &value) { pid_ = value; }
+
+void Process::User(const std::string &value) { user_ = value; }
+
+void Process::Command(const std::string &value) { command_ = value; }
+
+void Process::CpuUtilization(const float &value) { cpu_utilization_ = value; }
+
+void Process::Ram(const std::string &value) { ram_ = value; }
+
+void Process::UpTime(const long &value) { uptime_ = value; }
+
+// Overload the "less than" comparison operator for Process objects
+bool Process::operator<(Process const &a) const {
+  return (std::stoi(ram_) > std::stoi(a.Ram()));
+}
