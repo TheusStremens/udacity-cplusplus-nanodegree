@@ -47,6 +47,7 @@ long ActiveJiffies(int pid);
 long IdleJiffies();
 
 // Processes
+float CpuUtilization(int pid, long system_uptime);
 std::string Command(int pid);
 std::string Ram(int pid);
 std::string Uid(int pid);

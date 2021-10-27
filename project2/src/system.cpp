@@ -23,6 +23,7 @@ Processor& System::Cpu() { return cpu_; }
 
 // TODO: Return a container composed of the system's processes
 vector<Process>& System::Processes() {
+  processes_.clear();
   auto pids = LinuxParser::Pids();
   for (auto pid : pids) {
     Process new_process;
@@ -31,9 +32,11 @@ vector<Process>& System::Processes() {
     new_process.User(LinuxParser::User(pid));
     new_process.Ram(LinuxParser::Ram(pid));
     new_process.UpTime(LinuxParser::UpTime(pid));
+    new_process.CpuUtilization(LinuxParser::CpuUtilization(pid, UpTime()));
     processes_.push_back(new_process);
   }
   std::sort(processes_.begin(), processes_.end());
+  std::reverse(processes_.begin(), processes_.end());
   return processes_;
 }
 

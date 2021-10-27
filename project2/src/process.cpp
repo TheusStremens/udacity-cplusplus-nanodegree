@@ -40,5 +40,5 @@ void Process::UpTime(const long &value) { uptime_ = value; }
 
 // Overload the "less than" comparison operator for Process objects
 bool Process::operator<(Process const &a) const {
-  return (std::stoi(ram_) > std::stoi(a.Ram()));
+  return (cpu_utilization_ < a.cpu_utilization_);
 }
