@@ -3,17 +3,16 @@
 
 #include "format.h"
 
-using std::string;
-
-// INPUT: Long int measuring seconds
-// OUTPUT: HH:MM:SS
-string Format::ElapsedTime(long seconds) {
+std::string Format::ElapsedTime(long seconds)
+{
   std::ostringstream result;
   long hours, minutes;
   minutes = seconds / 60;
   hours = minutes / 60;
-  minutes = minutes%60;
-  seconds = seconds%60;
+  minutes = minutes % 60;
+  seconds = seconds % 60;
+  // We need to check if is needed to add an extra '0' in hours, minutes, and seconds
+  // before display it
   if (hours < 10)
     result << "0";
   result << hours << ":";

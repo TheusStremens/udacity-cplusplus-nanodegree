@@ -3,8 +3,17 @@
 
 #include <string>
 
-namespace Format {
-std::string ElapsedTime(long times);  // TODO: See src/format.cpp
-};                                    // namespace Format
+namespace Format
+{
+
+  /**
+   * @brief Convert seconds to HH:MM:SS string
+   *
+   * @param times Long int measuring seconds
+   * @return std::string HH:MM:SS
+   */
+  std::string ElapsedTime(long times);
+
+}; // namespace Format
 
 #endif

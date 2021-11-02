@@ -7,25 +7,76 @@
 #include "process.h"
 #include "processor.h"
 
-class System {
- public:
-  // Constructor that will initialize information that don't change at runtime.
+class System
+{
+public:
+  /**
+   * @brief Constructor that will initialize information that don't change at runtime.
+   *
+   */
   System();
 
-  Processor& Cpu();                   // TODO: See src/system.cpp
-  std::vector<Process>& Processes();  // TODO: See src/system.cpp
-  float MemoryUtilization();          // TODO: See src/system.cpp
-  long UpTime();                      // TODO: See src/system.cpp
-  int TotalProcesses();               // TODO: See src/system.cpp
-  int RunningProcesses();             // TODO: See src/system.cpp
-  std::string Kernel();               // TODO: See src/system.cpp
-  std::string OperatingSystem();      // TODO: See src/system.cpp
+  /**
+   * @brief Return the system's CPU.
+   *
+   * @return Processor&
+   */
+  Processor &Cpu();
 
-  // TODO: Define any necessary private members
- private:
+  /**
+   * @brief Return a container composed of the system's processes.
+   *
+   * @return std::vector<Process>&
+   */
+  std::vector<Process> &Processes();
+
+  /**
+   * @brief Return the system's memory utilization.
+   *
+   * @return float
+   */
+  float MemoryUtilization();
+
+  /**
+   * @brief Return the number of seconds since the system started running.
+   *
+   * @return long
+   */
+  long UpTime();
+
+  /**
+   * @brief Return the total number of processes on the system.
+   *
+   * @return int
+   */
+  int TotalProcesses();
+
+  /**
+   * @brief Return the number of processes actively running on the system.
+   *
+   * @return int
+   */
+  int RunningProcesses();
+
+  /**
+   * @brief Return the system's kernel identifier (string).
+   *
+   * @return std::string
+   */
+  std::string Kernel();
+
+  /**
+   * @brief Return the operating system name.
+   *
+   * @return std::string
+   */
+  std::string OperatingSystem();
+
+private:
+  /// Processor class contains information about the CPU.
   Processor cpu_ = {};
+  /// All the process running in the system.
   std::vector<Process> processes_ = {};
-
   /// Stores the OS because it won't change at runtime.
   std::string operating_system_ = {};
   /// Stores the Kernel because it won't change at runtime.

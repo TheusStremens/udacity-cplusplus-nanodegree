@@ -2,7 +2,8 @@
 #include "processor.h"
 #include <iostream>
 
-void Processor::ReadCPUTimeVariables() {
+void Processor::ReadCPUTimeVariables()
+{
   auto cpu_string = LinuxParser::CpuUtilization();
   std::istringstream linestream(cpu_string[0]);
   std::string cpu;
@@ -10,9 +11,11 @@ void Processor::ReadCPUTimeVariables() {
   >> io_wait_ >> irq_ >> soft_irq_ >> steal_ >> guest_ >> guest_nice_;
 }
 
-float Processor::Utilization() {
+float Processor::Utilization()
+{
   // First update the basic time members.
   ReadCPUTimeVariables();
+
   // Now we can make the calculations based on
   // https://stackoverflow.com/questions/23367857/accurate-calculation-of-cpu-usage-given-in-percentage-in-linux
   user_time_ = user_time_ - guest_;
@@ -24,7 +27,8 @@ float Processor::Utilization() {
   actual_total_time_ = user_time_ + nice_time_ + actual_total_system_time_ + actual_total_idle_time_ + steal_ + actual_total_virtual_time_;
 
   // In the first time we need to use the actual times to calculate.
-  if (previous_total_time_ == 0) {
+  if (previous_total_time_ == 0)
+  {
     previous_total_time_ = actual_total_time_;
     previous_total_idle_time_ = actual_total_idle_time_;
     return (previous_total_time_ - previous_total_idle_time_) / (double)previous_total_time_;
