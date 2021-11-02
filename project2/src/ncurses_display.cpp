@@ -28,19 +28,32 @@ std::string NCursesDisplay::ProgressBar(float percent) {
   return result + " " + display + "/100%";
 }
 
+void NCursesDisplay::setColorByUtilization(float utilization, WINDOW* window) {
+  if (utilization < 0.33)
+    wattron(window, COLOR_PAIR(1)); // Blue.
+  else if (utilization < 0.66)
+    wattron(window, COLOR_PAIR(3)); // Yellow.
+  else
+    wattron(window, COLOR_PAIR(4)); // Red.
+}
+
 void NCursesDisplay::DisplaySystem(System& system, WINDOW* window) {
   int row{0};
   mvwprintw(window, ++row, 2, ("OS: " + system.OperatingSystem()).c_str());
   mvwprintw(window, ++row, 2, ("Kernel: " + system.Kernel()).c_str());
   mvwprintw(window, ++row, 2, "CPU: ");
-  wattron(window, COLOR_PAIR(1));
+  // Use color depending on the cpu utilization.
+  auto cpu_utilization = system.Cpu().Utilization();
+  setColorByUtilization(cpu_utilization, window);
   mvwprintw(window, row, 10, "");
-  wprintw(window, ProgressBar(system.Cpu().Utilization()).c_str());
+  wprintw(window, ProgressBar(cpu_utilization).c_str());
   wattroff(window, COLOR_PAIR(1));
   mvwprintw(window, ++row, 2, "Memory: ");
-  wattron(window, COLOR_PAIR(1));
+  // Use color depending on the memory utilization.
+  auto memory_utilization = system.MemoryUtilization();
+  setColorByUtilization(memory_utilization, window);
   mvwprintw(window, row, 10, "");
-  wprintw(window, ProgressBar(system.MemoryUtilization()).c_str());
+  wprintw(window, ProgressBar(memory_utilization).c_str());
   wattroff(window, COLOR_PAIR(1));
   mvwprintw(window, ++row, 2,
             ("Total Processes: " + to_string(system.TotalProcesses())).c_str());
@@ -96,6 +109,8 @@ void NCursesDisplay::Display(System& system, int n) {
   while (1) {
     init_pair(1, COLOR_BLUE, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(4, COLOR_RED, COLOR_BLACK);
     box(system_window, 0, 0);
     box(process_window, 0, 0);
     DisplaySystem(system, system_window);
