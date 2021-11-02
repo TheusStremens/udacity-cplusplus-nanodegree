@@ -36,17 +36,27 @@ void NCursesDisplay::setColorByUtilization(float utilization, WINDOW* window) {
   else
     wattron(window, COLOR_PAIR(4)); // Red.
 }
-
-void NCursesDisplay::DisplaySystem(System& system, WINDOW* window) {
+#include <iostream>
+void NCursesDisplay::DisplaySystem(System& system, WINDOW* window, uint num_cpus) {
   int row{0};
   mvwprintw(window, ++row, 2, ("OS: " + system.OperatingSystem()).c_str());
   mvwprintw(window, ++row, 2, ("Kernel: " + system.Kernel()).c_str());
-  mvwprintw(window, ++row, 2, "CPU: ");
+  mvwprintw(window, ++row, 2, "CPUs: ");
   // Use color depending on the cpu utilization.
   auto cpu_utilization = system.Cpu().Utilization();
   setColorByUtilization(cpu_utilization, window);
   mvwprintw(window, row, 10, "");
   wprintw(window, ProgressBar(cpu_utilization).c_str());
+  wattroff(window, COLOR_PAIR(1));
+  for (uint i = 0; i < num_cpus; i++)
+  {
+    mvwprintw(window, ++row, 2, ("CPU"+std::to_string(i+1)+": ").c_str());
+    cpu_utilization = system.Cpu(i).Utilization();
+    setColorByUtilization(cpu_utilization, window);
+    mvwprintw(window, row, 10, "");
+    wprintw(window, ProgressBar(cpu_utilization).c_str());
+    wattroff(window, COLOR_PAIR(1));
+  }
   wattroff(window, COLOR_PAIR(1));
   mvwprintw(window, ++row, 2, "Memory: ");
   // Use color depending on the memory utilization.
@@ -101,8 +111,9 @@ void NCursesDisplay::Display(System& system, int n) {
   cbreak();       // terminate ncurses on ctrl + c
   start_color();  // enable color
 
+  uint num_cpus = system.numberOfCPUs();
   int x_max{getmaxx(stdscr)};
-  WINDOW* system_window = newwin(9, x_max - 1, 0, 0);
+  WINDOW* system_window = newwin(9 + num_cpus, x_max - 1, 0, 0);
   WINDOW* process_window =
       newwin(3 + n, x_max - 1, system_window->_maxy + 1, 0);
 
@@ -113,7 +124,7 @@ void NCursesDisplay::Display(System& system, int n) {
     init_pair(4, COLOR_RED, COLOR_BLACK);
     box(system_window, 0, 0);
     box(process_window, 0, 0);
-    DisplaySystem(system, system_window);
+    DisplaySystem(system, system_window, num_cpus);
     DisplayProcesses(system.Processes(), process_window, n);
     wrefresh(system_window);
     wrefresh(process_window);

@@ -8,6 +8,14 @@ class Processor
 {
 public:
   /**
+   * @brief Construct that will initialize the CPU number. A value of -1 means that it
+   * holds the aggregated information about the CPU.
+   *
+   * @param cpu_number
+   */
+  Processor(int cpu_number);
+
+  /**
    * @brief Return the aggregate CPU utilization
    *
    * @return float
@@ -32,6 +40,8 @@ private:
   /// Accumulated actual times.
   longest_int actual_total_time_, actual_total_idle_time_;
   longest_int actual_total_system_time_, actual_total_virtual_time_;
+
+  int cpu_number_;
 };
 
 #endif

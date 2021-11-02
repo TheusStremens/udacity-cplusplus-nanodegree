@@ -81,6 +81,13 @@ namespace LinuxParser
    */
   std::vector<std::string> CpuUtilization();
 
+  /**
+   * @brief Return the number of CPUs of the system.
+   *
+   * @return uint
+   */
+  uint numberOfCPUs();
+
   // Note for the reviewer: I removed the methods Jiffies, ActiveJiffies, ActiveJiffies,
   // IdleJiffies because it's safer and more efficient to get the values at the same
   // time when I open the file. That's no sense in open a file, get a value, close the

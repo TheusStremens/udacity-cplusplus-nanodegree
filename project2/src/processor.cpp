@@ -2,10 +2,12 @@
 #include "processor.h"
 #include <iostream>
 
+Processor::Processor(int cpu_number) : cpu_number_(cpu_number) {}
+
 void Processor::ReadCPUTimeVariables()
 {
   auto cpu_string = LinuxParser::CpuUtilization();
-  std::istringstream linestream(cpu_string[0]);
+  std::istringstream linestream(cpu_string[cpu_number_+1]);
   std::string cpu;
   linestream >> cpu >> user_time_ >> nice_time_ >> system_time_ >> idle_time_
   >> io_wait_ >> irq_ >> soft_irq_ >> steal_ >> guest_ >> guest_nice_;

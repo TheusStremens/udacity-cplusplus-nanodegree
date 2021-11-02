@@ -8,7 +8,7 @@
 
 namespace NCursesDisplay {
 void Display(System& system, int n = 10);
-void DisplaySystem(System& system, WINDOW* window);
+void DisplaySystem(System& system, WINDOW* window, uint num_cpus);
 void DisplayProcesses(std::vector<Process>& processes, WINDOW* window, int n);
 std::string ProgressBar(float percent);
 void setColorByUtilization(float utilization, WINDOW* window);

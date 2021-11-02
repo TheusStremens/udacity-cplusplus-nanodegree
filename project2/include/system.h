@@ -17,11 +17,19 @@ public:
   System();
 
   /**
-   * @brief Return the system's CPU.
+   * @brief Return the system's aggregated CPU (the first one in cpus_ container).
    *
    * @return Processor&
    */
   Processor &Cpu();
+
+  /**
+   * @brief Return the corresponding CPU.
+   *
+   * @param cpu_number
+   * @return Processor&
+   */
+  Processor &Cpu(uint cpu_number);
 
   /**
    * @brief Return a container composed of the system's processes.
@@ -72,9 +80,17 @@ public:
    */
   std::string OperatingSystem();
 
+  /**
+   * @brief Return the number of CPUs of the system.
+   *
+   * @return uint
+   */
+  uint numberOfCPUs();
+
 private:
-  /// Processor class contains information about the CPU.
-  Processor cpu_ = {};
+  /// Container with contains information about each CPU. The first one contains the
+  /// aggregated information of them.
+  std::vector<Processor> cpus_ = {};
   /// All the process running in the system.
   std::vector<Process> processes_ = {};
   /// Stores the OS because it won't change at runtime.

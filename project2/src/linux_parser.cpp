@@ -102,6 +102,27 @@ long LinuxParser::UpTime()
   return uptime;
 }
 
+uint LinuxParser::numberOfCPUs()
+{
+  uint result = 0;
+  std::string line, key = "cpu";
+  std::ifstream filestream(kProcDirectory + kStatFilename);
+  if (filestream.is_open())
+  {
+    // Skip the first line.
+    std::getline(filestream, line);
+    while (std::getline(filestream, line))
+    {
+      std::istringstream linestream(line);
+      linestream >> key;
+      if (key.substr(0, 3) != "cpu")
+        return result;
+      result++;
+    }
+  }
+  return result;
+}
+
 std::vector<std::string> LinuxParser::CpuUtilization()
 {
   std::vector<std::string> result;
@@ -109,9 +130,11 @@ std::vector<std::string> LinuxParser::CpuUtilization()
   std::ifstream filestream(kProcDirectory + kStatFilename);
   if (filestream.is_open())
   {
-    std::getline(filestream, line);
-    std::istringstream linestream(line);
-    result.push_back(line);
+    while (std::getline(filestream, line))
+    {
+      std::istringstream linestream(line);
+      result.push_back(line);
+    }
   }
   return result;
 }

@@ -19,9 +19,16 @@ System::System()
   // Those fields wont't change so, we can retrieve them in the constructor.
   operating_system_ = LinuxParser::OperatingSystem();
   kernel_ = LinuxParser::Kernel();
+  uint num_cpus = numberOfCPUs();
+  // Add an extra for aggregated CPU information.
+  cpus_.push_back(Processor(-1));
+  for (uint i = 0; i < num_cpus; i++)
+    cpus_.push_back(Processor(i));
 }
 
-Processor &System::Cpu() { return cpu_; }
+Processor &System::Cpu() { return cpus_[0]; }
+
+Processor &System::Cpu(uint cpu_number) { return cpus_[cpu_number+1]; }
 
 vector<Process> &System::Processes()
 {
@@ -53,17 +60,10 @@ float System::MemoryUtilization() { return LinuxParser::MemoryUtilization(); }
 
 std::string System::OperatingSystem() { return operating_system_; }
 
-int System::RunningProcesses()
-{
-  return LinuxParser::RunningProcesses();
-}
+int System::RunningProcesses() { return LinuxParser::RunningProcesses(); }
 
-int System::TotalProcesses()
-{
-  return LinuxParser::TotalProcesses();
-}
+int System::TotalProcesses() { return LinuxParser::TotalProcesses(); }
 
-long System::UpTime()
-{
-  return LinuxParser::UpTime();
-}
+long System::UpTime() { return LinuxParser::UpTime(); }
+
+uint System::numberOfCPUs() { return LinuxParser::numberOfCPUs(); }
