@@ -9,10 +9,6 @@
 #include "system.h"
 #include "linux_parser.h"
 
-using std::set;
-using std::size_t;
-using std::string;
-using std::vector;
 
 System::System()
 {
@@ -30,7 +26,7 @@ Processor &System::Cpu() { return cpus_[0]; }
 
 Processor &System::Cpu(uint cpu_number) { return cpus_[cpu_number+1]; }
 
-vector<Process> &System::Processes()
+std::vector<Process> &System::Processes()
 {
   processes_.clear();
   auto pids = LinuxParser::Pids();
