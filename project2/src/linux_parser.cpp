@@ -79,11 +79,15 @@ float LinuxParser::MemoryUtilization()
     std::getline(filestream, line);
     std::istringstream linestream(line);
     linestream >> header >> mem_total;
+    if (header != kFilterMemTotalString)
+      return 0.0;
 
     std::getline(filestream, line);
     std::getline(filestream, line);
     linestream = std::istringstream(line);
     linestream >> header >> mem_free;
+    if (header != kFilterMemFreeString)
+      return 0.0;
   }
   return (mem_total - mem_free) / (float)mem_total;
 }
@@ -105,7 +109,7 @@ long LinuxParser::UpTime()
 uint LinuxParser::numberOfCPUs()
 {
   uint result = 0;
-  std::string line, key = "cpu";
+  std::string line, key = kFilterCpu;
   std::ifstream filestream(kProcDirectory + kStatFilename);
   if (filestream.is_open())
   {
@@ -115,7 +119,7 @@ uint LinuxParser::numberOfCPUs()
     {
       std::istringstream linestream(line);
       linestream >> key;
-      if (key.substr(0, 3) != "cpu")
+      if (key.substr(0, 3) != kFilterCpu)
         return result;
       result++;
     }
@@ -150,7 +154,7 @@ int LinuxParser::TotalProcesses()
     {
       std::istringstream linestream(line);
       linestream >> key >> value;
-      if (key == "processes")
+      if (key == kFilterProcesses)
         return value;
     }
   }
@@ -168,7 +172,7 @@ int LinuxParser::RunningProcesses()
     {
       std::istringstream linestream(line);
       linestream >> key >> value;
-      if (key == "procs_running")
+      if (key == kFilterRunningProcesses)
         return value;
     }
   }
@@ -190,7 +194,7 @@ std::string LinuxParser::Ram(int pid)
   std::string key, value, line;
   if (filestream.is_open())
   {
-    while (key != "VmSize:" && std::getline(filestream, line))
+    while (key != kFilterProcMem && std::getline(filestream, line))
     {
       std::istringstream linestream(line);
       linestream >> key >> value;
@@ -208,7 +212,7 @@ std::string LinuxParser::Uid(int pid)
   std::string key, value, line;
   if (filestream.is_open())
   {
-    while (key != "Uid:" && std::getline(filestream, line))
+    while (key != kFilterUID && std::getline(filestream, line))
     {
       std::istringstream linestream(line);
       linestream >> key >> value;
