@@ -3,6 +3,8 @@
 
 #include <string>
 
+#define MAX_COMMAND_LENGTH 50
+
 /**
  * @brief Basic class for Process representation It contains relevant attributes as
  * shown below. This class works like a container, who will set its values is the System

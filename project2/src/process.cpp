@@ -26,7 +26,16 @@ void Process::Pid(const int &value) { pid_ = value; }
 
 void Process::User(const std::string &value) { user_ = value; }
 
-void Process::Command(const std::string &value) { command_ = value; }
+void Process::Command(const std::string &value)
+{
+  if (value.size() > MAX_COMMAND_LENGTH)
+  {
+    command_ = value.substr(0, MAX_COMMAND_LENGTH);
+    command_ += "...";
+  }
+  else
+    command_ = value;
+}
 
 void Process::CpuUtilization(const float &value) { cpu_utilization_ = value; }
 
