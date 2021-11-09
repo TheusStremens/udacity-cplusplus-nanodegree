@@ -26,8 +26,32 @@ namespace LinuxParser
   const std::string kFilterMemFreeString("MemFree:");
   const std::string kFilterCpu("cpu");
   const std::string kFilterUID("Uid:");
-  const std::string kFilterProcMem("VmSize:");
+  const std::string kFilterProcMem("VmRSS:"); // Using physical RAM instead of virtual one.
 
+  // -------------------
+  // Helper
+  // -------------------
+
+  /**
+   * @brief Generic function to open a file and get a value by a key.
+   *
+   * @tparam T
+   * @param key_filter
+   * @param file_name
+   * @return T
+   */
+  template <typename T>
+  T findValueByKey(std::string const &key_filter, std::string const &file_name);
+
+  /**
+   * @brief Generic function to open a file and return its content.
+   *
+   * @tparam T
+   * @param file_name
+   * @return T
+   */
+  template <typename T>
+  T getValueOfFile(std::string const &file_name);
 
   // -------------------
   // System
