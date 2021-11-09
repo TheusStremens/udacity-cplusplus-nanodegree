@@ -8,6 +8,20 @@
 
 Process::Process() {}
 
+Process::Process(const int &pid,
+                 const std::string &command,
+                 const std::string &user,
+                 const std::string &ram,
+                 const long &uptime,
+                 const float &cpu_utilization)
+                 :
+                 pid_(pid),
+                 command_(command),
+                 user_(user),
+                 ram_(ram),
+                 uptime_(uptime),
+                 cpu_utilization_(cpu_utilization) {}
+
 int Process::Pid() const { return pid_; }
 
 float Process::CpuUtilization() const { return cpu_utilization_; }

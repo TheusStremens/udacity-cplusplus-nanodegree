@@ -34,13 +34,12 @@ std::vector<Process> &System::Processes()
   {
     // Create a process and fill its fields using the linux parser with the
     // corresponding pid.
-    Process new_process;
-    new_process.Pid(pid);
-    new_process.Command(LinuxParser::Command(pid));
-    new_process.User(LinuxParser::User(pid));
-    new_process.Ram(LinuxParser::Ram(pid));
-    new_process.UpTime(LinuxParser::UpTime(pid));
-    new_process.CpuUtilization(LinuxParser::CpuUtilization(pid, UpTime()));
+    std::string command = LinuxParser::Command(pid);
+    std::string user = LinuxParser::User(pid);
+    std::string ram = LinuxParser::Ram(pid);
+    long uptime = LinuxParser::UpTime(pid);
+    float cpu_utilization = LinuxParser::CpuUtilization(pid, UpTime());
+    Process new_process(pid, command, user, ram, uptime, cpu_utilization);
     processes_.push_back(new_process);
   }
   // Sort the process by cpu utilization.

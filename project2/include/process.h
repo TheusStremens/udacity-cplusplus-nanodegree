@@ -15,6 +15,12 @@ class Process
 {
 public:
   Process();
+  Process(const int &pid,
+          const std::string &command,
+          const std::string &user,
+          const std::string &ram,
+          const long &uptime,
+          const float &cpu_utilization);
 
   // Gets.
   int Pid() const;
@@ -37,11 +43,11 @@ public:
 
 private:
   int pid_{0};
-  std::string user_{};
   std::string command_{};
-  float cpu_utilization_{0.0};
+  std::string user_{};
   std::string ram_{};
   long uptime_{0};
+  float cpu_utilization_{0.0};
 };
 
 #endif
