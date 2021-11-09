@@ -1,5 +1,6 @@
 #include <string>
 #include <sstream>
+#include <iomanip>
 
 #include "format.h"
 
@@ -13,14 +14,10 @@ std::string Format::ElapsedTime(long seconds)
   seconds = seconds % 60;
   // We need to check if is needed to add an extra '0' in hours, minutes, and seconds
   // before display it
-  if (hours < 10)
-    result << "0";
-  result << hours << ":";
-  if (minutes < 10)
-    result << "0";
-  result << minutes << ":";
-  if (seconds < 10)
-    result << "0";
-  result << seconds;
+  result << std::setw(2) << std::setfill('0') << hours     // HH
+         << std::setw(1) << ":"                            // :
+         << std::setw(2) << std::setfill('0') << minutes   // MM
+         << std::setw(1) << ":"                            // :
+         << std::setw(2) << std::setfill('0') << seconds;  // SS
   return result.str();
 }
