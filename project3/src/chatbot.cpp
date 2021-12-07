@@ -60,6 +60,11 @@ ChatBot::ChatBot(ChatBot &&other)
     _currentNode = other._currentNode;
     _rootNode = other._rootNode;
     _image = other._image;
+
+    // Trick to allow the ChatLogic have the pointer to the ChatBot. Without this is
+    // not possible to use the interface between ChatLogic and ChatBot.
+    _chatLogic->SetChatbotHandle(this);
+
     other._chatLogic = nullptr;
     other._currentNode = nullptr;
     other._rootNode = nullptr;
@@ -68,15 +73,9 @@ ChatBot::ChatBot(ChatBot &&other)
 
 ChatBot &ChatBot::operator=(const ChatBot &other)
 {
-    std::cout << "ChatBot Copy Assignment" << std::endl;
+    std::cout << "ChatBot Copy Assignment Operator" << std::endl;
     if (this == &other)
         return *this;
-
-    _chatLogic = nullptr;
-    _currentNode = nullptr;
-    _rootNode = nullptr;
-    delete _image;
-    _image = NULL;
 
     _chatLogic = other._chatLogic;
     _currentNode = other._currentNode;
@@ -87,20 +86,16 @@ ChatBot &ChatBot::operator=(const ChatBot &other)
 
 ChatBot &ChatBot::operator=(ChatBot &&other)
 {
-    std::cout << "ChatBot Move Assignment" << std::endl;
+    std::cout << "ChatBot Move Assignment Operator" << std::endl;
     if (this == &other)
         return *this;
-
-    _chatLogic = nullptr;
-    _currentNode = nullptr;
-    _rootNode = nullptr;
-    delete _image;
-    _image = NULL;
 
     _chatLogic = other._chatLogic;
     _currentNode = other._currentNode;
     _rootNode = other._rootNode;
     _image = other._image;
+
+    _chatLogic->SetChatbotHandle(this);
 
     other._chatLogic = nullptr;
     other._currentNode = nullptr;
