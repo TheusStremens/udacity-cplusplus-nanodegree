@@ -1,2 +1,2 @@
-# udacity-cplusplus-nanodegree
-Repository with the codes for the Udacity C++ nanodegree
+# Udacity C++ Nanodegree
+Repository with my codes for the Udacity C++ nanodegree
