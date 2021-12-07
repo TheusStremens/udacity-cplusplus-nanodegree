@@ -50,7 +50,8 @@ ChatBot::ChatBot(const ChatBot &other)
     _chatLogic = other._chatLogic;
     _currentNode = other._currentNode;
     _rootNode = other._rootNode;
-    _image = other._image;
+    _image = new wxBitmap();
+    *_image = *other._image;
 }
 
 ChatBot::ChatBot(ChatBot &&other)
@@ -80,7 +81,8 @@ ChatBot &ChatBot::operator=(const ChatBot &other)
     _chatLogic = other._chatLogic;
     _currentNode = other._currentNode;
     _rootNode = other._rootNode;
-    _image = other._image;
+    _image = new wxBitmap();
+    *_image = *other._image;
     return *this;
 }
 
