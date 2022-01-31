@@ -12,8 +12,9 @@ public:
     // constructor / desctructor
 
     // getters / setters
-    void setBgFilename(std::string filename) { _bgFilename = filename; }
-    void setTrafficObjects(std::vector<std::shared_ptr<TrafficObject>> &trafficObjects) { _trafficObjects = trafficObjects; };
+    inline void setBgFilename(std::string filename) { _bgFilename = filename; }
+    inline void setTrafficObjects(std::vector<std::shared_ptr<TrafficObject>> &trafficObjects) { _trafficObjects = trafficObjects; };
+    inline void setDownscale(float downscale) { _downscale = downscale; };
 
     // typical behaviour methods
     void simulate();
@@ -28,6 +29,7 @@ private:
     std::string _bgFilename;
     std::string _windowName;
     std::vector<cv::Mat> _images;
+    float _downscale{1.0};
 };
 
 #endif

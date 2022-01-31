@@ -13,8 +13,8 @@ void createTrafficObjects_Paris(std::vector<std::shared_ptr<Street>> &streets, s
 {
     // assign filename of corresponding city map
     // Note: You can use the webp format instead of jpeg
-    // According to Google - WebP lossless images are 26% smaller in size compared to PNGs. 
-    // WebP lossy images are 25-34% smaller than comparable JPEG images at equivalent SSIM quality index. 
+    // According to Google - WebP lossless images are 26% smaller in size compared to PNGs.
+    // WebP lossy images are 25-34% smaller than comparable JPEG images at equivalent SSIM quality index.
     filename = "../data/paris.jpg";
 
     // init traffic objects
@@ -113,7 +113,7 @@ void createTrafficObjects_NYC(std::vector<std::shared_ptr<Street>> &streets, std
 }
 
 /* Main function */
-int main()
+int main(int argc, char *argv[])
 {
     /* PART 1 : Set up traffic objects */
 
@@ -141,13 +141,15 @@ int main()
 
     // add all objects into common vector
     std::vector<std::shared_ptr<TrafficObject>> trafficObjects;
-    std::for_each(intersections.begin(), intersections.end(), [&trafficObjects](std::shared_ptr<Intersection> &intersection) {
-        std::shared_ptr<TrafficObject> trafficObject = std::dynamic_pointer_cast<TrafficObject>(intersection);
+
+    // Inverter the order to always see the traffic lights.
+    std::for_each(vehicles.begin(), vehicles.end(), [&trafficObjects](std::shared_ptr<Vehicle> &vehicles) {
+        std::shared_ptr<TrafficObject> trafficObject = std::dynamic_pointer_cast<TrafficObject>(vehicles);
         trafficObjects.push_back(trafficObject);
     });
 
-    std::for_each(vehicles.begin(), vehicles.end(), [&trafficObjects](std::shared_ptr<Vehicle> &vehicles) {
-        std::shared_ptr<TrafficObject> trafficObject = std::dynamic_pointer_cast<TrafficObject>(vehicles);
+    std::for_each(intersections.begin(), intersections.end(), [&trafficObjects](std::shared_ptr<Intersection> &intersection) {
+        std::shared_ptr<TrafficObject> trafficObject = std::dynamic_pointer_cast<TrafficObject>(intersection);
         trafficObjects.push_back(trafficObject);
     });
 
@@ -155,5 +157,7 @@ int main()
     Graphics *graphics = new Graphics();
     graphics->setBgFilename(backgroundImg);
     graphics->setTrafficObjects(trafficObjects);
+    if (argc > 1)
+        graphics->setDownscale(std::stof(argv[1]));
     graphics->simulate();
 }
