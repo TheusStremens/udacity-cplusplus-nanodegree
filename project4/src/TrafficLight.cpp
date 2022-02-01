@@ -88,7 +88,7 @@ void TrafficLight::cycleThroughPhases()
                 _currentPhase = TrafficLightPhase::green;
             else
                 _currentPhase = TrafficLightPhase::red;
-            // MAYBE NOT WORK
+
             _messageQueue.send(std::move(_currentPhase));
 
             // reset stop watch for next cycle
